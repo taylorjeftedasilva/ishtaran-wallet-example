@@ -88,8 +88,22 @@ export async function apiGet<T>(path: string, sessionToken: string): Promise<{ s
   return { status: res.status, body: (await res.json()) as T };
 }
 
-export function createPayment(sessionToken: string, recipientAccountId: string, amount: string, event: string) {
-  return apiPost<CreatePaymentResult>('/payments', sessionToken, { recipientAccountId, amount, event });
+/**
+ * Every scenario that calls this expects a real, successful Payment creation (201) -- even
+ * scenario 06 ("failure-unfunded-payment"), whose actual failure subject is a later step
+ * (finalize on an unconfirmed deposit), never payment creation itself. Throws with the real
+ * response body on any other status -- found live 2026-09-11: `apiPost` returning `{status,
+ * body}` unconditionally meant a genuine backend rejection (e.g. `422
+ * ORGANIZATION_SETTLEMENT_RESTRICTED`) silently reached call sites as `created.body.calculation
+ * === undefined`, crashing on `.appFeeAmount` with a message that pointed nowhere near the real
+ * cause.
+ */
+export async function createPayment(sessionToken: string, recipientAccountId: string, amount: string, event: string): Promise<{ status: number; body: CreatePaymentResult }> {
+  const result = await apiPost<CreatePaymentResult>('/payments', sessionToken, { recipientAccountId, amount, event });
+  if (result.status !== 201) {
+    throw new Error(`createPayment(amount=${amount}, event=${event}) failed: ${result.status} ${JSON.stringify(result.body)}`);
+  }
+  return result;
 }
 
 /**

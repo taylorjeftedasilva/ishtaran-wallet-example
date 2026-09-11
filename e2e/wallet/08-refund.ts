@@ -11,7 +11,7 @@
 // not just worked around -- this is a real dead end for the normal payment flow, not a bug in
 // this scenario.
 import { getFullAccountBalance } from '@wallet-app/ishtaran-client';
-import { apiPost, bootstrap, createPayment, depositDemoFunds, mustEqual, signup, simulateSandboxSendAndFinalize, waitForReserved } from './_shared.js';
+import { apiPost, bootstrap, createPayment, depositDemoFunds, mustEqual, signup, simulateSandboxSendAndFinalize, waitForReserved, type CreatePaymentResult } from './_shared.js';
 
 export async function run(): Promise<void> {
   const alice = await signup('alice-refund');
@@ -44,7 +44,10 @@ export async function run(): Promise<void> {
   console.log(`[08-refund] Pre-Settlement refund returned exactly ${aliceDelta.toFixed(6)} USDT to Alice.`);
 
   // -- Refunded balance is a real dead end for a NEW payment (GAPS.md G.1 addendum). ---------------
-  const reuseAttempt = await createPayment(alice.sessionToken, bob.accountId, '5', 'P2P');
+  // Deliberately the raw apiPost, never the throwing createPayment() wrapper -- this call is
+  // EXPECTED to come back 409, and the assertions below need the real response body to inspect
+  // it, not a thrown error.
+  const reuseAttempt = await apiPost<CreatePaymentResult>('/payments', alice.sessionToken, { recipientAccountId: bob.accountId, amount: '5', event: 'P2P' });
   mustEqual('Reusing refunded balance for a new payment fails fast with a clear, honest error', reuseAttempt.status, 409);
   mustEqual(
     'Rejection carries the real code, never a confusing generic 500',
