@@ -1,0 +1,33 @@
+{
+  "name": "wallet-payment-app",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Self-custody wallet & payment reference app built on Ishtaran -- client-side keys, real on-chain wallet balance, Send vs Pay, app-owner-configurable monetization. See README.md.",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit && npm run typecheck --workspaces --if-present",
+    "test:unit": "npm run test:unit --workspaces --if-present",
+    "test:integration": "tsx tests/integration/validate-slice4.ts && tsx tests/integration/validate-slice6-8.ts",
+    "test:security": "tsx tests/integration/validate-prompt4-security.ts",
+    "test:reconciliation": "tsx tests/integration/validate-prompt4-reconciliation.ts",
+    "test": "npm run test:unit",
+    "e2e:wallet": "tsx e2e/wallet/run.ts",
+    "dev:api": "npm run dev --workspace apps/api",
+    "dev:web": "npm run dev --workspace apps/web",
+    "setup": "tsx scripts/setup.ts"
+  },
+  "dependencies": {
+    "@wallet-app/ishtaran-client": "*",
+    "@wallet-app/wallet-core": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.5"
+  }
+}

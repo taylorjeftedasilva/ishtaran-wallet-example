@@ -1,0 +1,96 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.neutral {
+  background: var(--color-border);
+  color: var(--color-text-muted);
+}
+.success {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+.danger {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+.warning {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+.info {
+  background: var(--color-info-soft);
+  color: var(--color-info);
+}
+.feeApp {
+  background: var(--color-fee-app-soft);
+  color: var(--color-fee-app);
+}
+.feePlatform {
+  background: var(--color-fee-platform-soft);
+  color: var(--color-fee-platform);
+}
+.feeNetwork {
+  background: var(--color-fee-network-soft);
+  color: var(--color-fee-network);
+}
+
+.banner {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+}
+
+.bannerDanger {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+.bannerWarning {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+.bannerInfo {
+  background: var(--color-info-soft);
+  color: var(--color-info);
+}
+.bannerSuccess {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.emptyState {
+  text-align: center;
+  padding: var(--space-6) var(--space-4);
+  color: var(--color-text-muted);
+}
+
+.emptyIcon {
+  font-size: 32px;
+  margin-bottom: var(--space-2);
+}

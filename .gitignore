@@ -1,0 +1,12 @@
+node_modules/
+**/node_modules/
+**/dist/
+config/.sandbox-bootstrap.json
+config/.execution-wallet.local.json
+**/*.sqlite
+**/*.sqlite-journal
+**/*.sqlite-shm
+**/*.sqlite-wal
+.env
+**/.env
+*.log
