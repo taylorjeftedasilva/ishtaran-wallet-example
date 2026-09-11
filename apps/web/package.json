@@ -10,7 +10,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@ishtaran/sdk": "^0.1.4",
+    "@ishtaran/sdk": "^0.1.6",
     "jsqr": "^1.4.0",
     "qrcode": "^1.5.4",
     "react": "^19.3.0",
